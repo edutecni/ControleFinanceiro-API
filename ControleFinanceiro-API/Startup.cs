@@ -12,6 +12,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft;
 using System.IO;
+using ControleFinanceiro_DAL;
+using Microsoft.EntityFrameworkCore;
+using ControleFinanceiro_BLL.Models;
 
 namespace ControleFinanceiro_API
 {
@@ -27,6 +30,10 @@ namespace ControleFinanceiro_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<Contexto>(opcoes => opcoes.UseSqlServer(Configuration.GetConnectionString("ConexaoBD")));
+
+            services.AddIdentity<Usuario, Funcao>().AddEntityFrameworkStores<Contexto>();
+
             services.AddCors();
 
             services.AddSpaStaticFiles(diretorio =>
